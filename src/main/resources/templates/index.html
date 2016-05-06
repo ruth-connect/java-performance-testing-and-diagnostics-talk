@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+		<title>Performance Testing and Diagnostics</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+		<!-- configuration parameters -->
+		<meta name="defaultView" content="slideshow" />
+		<meta name="controlVis" content="hidden" />
+		
+		<!-- favicon -->
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+		
+		<!-- stylesheet links -->
+		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css' />
+		<link href="https://static1.squarespace.com/static/ta/5594f9fce4b0c1a905697ba1/579/assets/fonts/calluna/stylesheet.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="/ui/default/slides.css" type="text/css" media="projection" id="slideProj" />
+		<link rel="stylesheet" href="/ui/default/outline.css" type="text/css" media="screen" id="outlineStyle" />
+		<link rel="stylesheet" href="/ui/default/print.css" type="text/css" media="print" id="slidePrint" />
+		<link rel="stylesheet" href="/ui/default/opera.css" type="text/css" media="projection" id="operaFix" />
+				
+		<!-- S5 JS -->
+		<script src="/ui/default/slides.js" type="text/javascript"></script>
+		
+	</head>
+	<body>
+		<div class="layout">
+			<div id="controls"></div>
+			<div id="currentSlide"></div>
+			<div id="header"></div>
+			<div id="footer">
+				<h1>Performance Testing and Diagnostics</h1>
+				<h2>using JMeter, VisualVM and Eclipse Memory Analyser Tool</h2>
+			</div>
+		</div>
+		
+		<div class="presentation">
+		
+			<div class="slide">
+				<h1>Performance Testing and Diagnostics</h1>
+				<h2>using JMeter, VisualVM and Eclipse Memory Analyser Tool</h2>
+				<h3>Ruth Mills (Twitter: @ruthmills)</h3>
+				<h4>Java Lead Developer, Connect Group</h4>
+			</div>
+			
+			<div class="slide">
+				<h1>A bit about me</h1>
+				<ul>
+					<li>Lead Developer at Connect Group in Birmingham</li>
+					<li>Specialising in Java-based web development</li>
+					<li>Working on projects for Jaguar Land Rover</li>
+					<li>Living in Shrewsbury with my wife Sonia</li>
+					<li>Transgender woman</li>
+					<li>Doctor Who and Star Wars fan</li>
+					<li>Massive Raspberry Pi geek</li>
+				</ul>
+			</div>
+			
+			<div class="slide">
+				<h1>Why performance testing?</h1>
+				<ul>
+					<li>Test an application under heavy load, where it would not otherwise be possible to do this manually</li>
+					<li>Track down bugs and issues which only occur when an application is under heavy load</li>
+					<li>Determine at which point an application starts to fail when under stress</li>
+					<li>Test that an application fails gracefully when placed under excessive load</li>
+					<li>Benchmark performance before and after making changes to an application</li>
+				</ul>
+			</div>
+			
+			<div class="slide">
+				<h1>JMeter</h1>
+				<ul>
+					<li><a href="http://jmeter.apache.org/" target="_blank">jmeter.apache.org</a></li>
+					<li>Open Source load/performance testing tool</li>
+					<li>Written in Java</li>
+					<li>Ideal for load testing Web applications (as well as other types of applications)</li>
+					<li>Very comprehensive and configurable</li>
+					<li>Great for firing up lots of concurrent threads to totally max out an application</li>
+				</ul>
+			</div>
+			
+			<div class="slide">
+				<h1>VisualVM</h1>
+				<ul>
+					<li><a href="http://visualvm.java.net/" target="_blank">visualvm.java.net</a></li>
+					<li>JVM (Java Virtual Machine) monitoring tool</li>
+					<li>Supports local and remote JVM connections</li>
+					<li>Real-time monitoring of CPU usage, memory, classes and threads</li>
+					<li>Sampling and profiling to work out which code is taking the most CPU and memory</li>
+					<li>Thread dump, heap dump and snapshot generation and analysis</li>
+				</ul>
+			</div>
+			
+			<div class="slide">
+				<h1>Connecting to a remote JVM</h1>
+				<ul>
+					<li>Set up a SOCKS proxy via SSH, e.g.<br/>
+						<i>ssh -D 9696 user@hostname</i></li>
+					<li>Configure VisualVM to use the SOCKS proxy (via the Network tab under the Preferences menu) –
+						set the SOCKS Proxy to localhost and the port to 9696.</li>
+					<li>Set up JMX by adding the following to the JVM parameters for the JVM you want to monitor:<br/>
+						<i>-Dcom.sun.management.jmxremote<br/>
+						-Dcom.sun.management.jmxremote.port=1099<br/>
+						-Dcom.sun.management.jmxremote.ssl=false<br/>
+						-Dcom.sun.management.jmxremote.authenticate=false</i></li>
+				</ul>
+			</div>
+			
+			<div class="slide">
+				<h1>Eclipse Memory Analyser Tool</h1>
+				<ul>
+					<li><a href="http://eclipse.org/mat/" target="_blank">eclipse.org/mat</a></li>
+					<li>Tool to analyse JVM heap dumps</li>
+					<li>Open Source</li>
+					<li>Very useful for tracking down memory leaks</li>
+					<li>Beware opening large heap dumps (e.g. several GB) unless you have shed loads of RAM –
+					it may take ages to perform analysis or fail with an out of memory error</li>
+				</ul>
+			</div>
+			
+			<div class="slide">
+				<h1>How to get a heap dump</h1>
+				<ul>
+					<li>Add the following command line option:<br/>
+						<i>-XX:+HeapDumpOnOutOfMemoryError</i><br/>
+						this will then cause a heap dump upon the JVM running out of memory</li>
+					<li>Run jmap on the command line to trigger a heap dump (needs the PID of the JVM), e.g.
+						<i>jmap -dump:file=heap.hprof {pid of the JVM}</i></li>
+					<li>Trigger a heap dump from within VisualVM, by right clicking on the JVM you are monitoring,
+						and choosing “Heap Dump”.</li>
+				</ul>
+			</div>
+			
+			<div class="slide">
+				<h1>Live Demo</h1>
+				<ul>
+					<li>This will show all 3 tools in action:</li>
+					<li>JMeter to test a Spring Boot web application under heavy load</li>
+					<li>VisualVM to monitor the JVM and track down performance bottlenecks</li>
+					<li>Eclipse Memory Analyser Tool to analyse a heap dump and track down memory leaks</li>
+				</ul>
+			</div>
+						
+			<div class="slide">
+				<h1>Further Resources</h1>
+				<ul>
+					<li>Performance testing presentation on GitHub - <a href="https://github.com/ruth-connect/java-performance-testing-and-diagnostics-talk" target="_blank">https://github.com/ruth-connect/java-performance-testing-and-diagnostics-talk</a></li>
+					<li>JMeter - <a href="http://jmeter.apache.org/" target="_blank">jmeter.apache.org</a></li>
+					<li>VisualVM - <a href="http://visualvm.java.net/" target="_blank">visualvm.java.net</a></li>
+					<li>Eclipse Memory Analyser Tool - <a href="http://eclipse.org/mat/" target="_blank">eclipse.org/mat</a></li>
+					<li>Connect Group - <a href="http://www.connect-group.com/" target="_blank">www.connect-group.com</a></li>
+				</ul>
+			</div>
+
+		</div>
+	</body>
+</html>
