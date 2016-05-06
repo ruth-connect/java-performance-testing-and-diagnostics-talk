@@ -18,7 +18,7 @@ public class LeakyCauldronServiceImpl implements LeakyCauldronService {
 
 	@Override
 	public void leakMemory() {
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 5000; i++) {
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.append("A Memory Charm is stealing your memory. ");
 			stringBuilder.append(Double.toString(Math.random()));

@@ -12,7 +12,7 @@ public class SlowLorisServiceImpl implements SlowLorisService {
 
 	@Override
 	public void goSlow() {
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 2000; i++) {
 			log.info("I'm busy doing nothing");
 			log.info("Busy the whole day through");
 			log.info("Trying to find lots of things not to do");
