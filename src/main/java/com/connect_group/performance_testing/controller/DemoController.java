@@ -1,9 +1,12 @@
 package com.connect_group.performance_testing.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.connect_group.performance_testing.service.EasilyOverloadedService;
 import com.connect_group.performance_testing.service.HunkyDoryService;
 import com.connect_group.performance_testing.service.LeakyCauldronService;
 import com.connect_group.performance_testing.service.SlowLorisService;
@@ -19,6 +22,9 @@ public class DemoController {
 	
 	@Autowired
 	private SlowLorisService slowLorisService;
+	
+	@Autowired
+	private EasilyOverloadedService easilyOverloadedService;
 
 	@RequestMapping({"/hunky-dory.html"})
 	public String hunkyDory() {
@@ -36,5 +42,11 @@ public class DemoController {
 	public String slowLoris() {
 		slowLorisService.goSlow();
 		return "slowLoris";
+	}
+	
+	@RequestMapping({"/easily-overloaded.html"})
+	public String easilyOverloaded() throws IOException, InterruptedException {
+		easilyOverloadedService.attemptToDoStuff();
+		return "easilyOverloaded";
 	}
 }
