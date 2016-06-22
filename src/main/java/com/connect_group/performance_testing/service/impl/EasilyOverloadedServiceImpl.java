@@ -14,7 +14,7 @@ public class EasilyOverloadedServiceImpl implements EasilyOverloadedService {
 	private int numConnections;
 
 	public void attemptToDoStuff() throws IOException, InterruptedException {
-		if (numConnections > MAX_NUM_CONNECTIONS) {
+		if (numConnections >= MAX_NUM_CONNECTIONS) {
 			throw new IOException("Sorry! Too many concurrent connections!");
 		} else {
 			numConnections++;
